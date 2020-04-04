@@ -1,5 +1,8 @@
 import bs4 as bs4
 import requests
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, APIC, error
+from tkinter import filedialog
 
 
 def connect(url):
@@ -27,9 +30,23 @@ def scrap_to_file(soup):
 
 def image():
     global x
-    x = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = [("jpeg files","*.jpg")])
+    x = filedialog.askopenfilename(initialdir = "/",title = "Select image",filetypes = [("jpeg files","*.jpg")])
     return x
 
+
+def audio():
+    global y
+    y = filedialog.askopenfilename(initialdir = "/",title = "Select mp3",filetypes = [("mp3 files","*.mp3")])
+    return y
+
+def job(x,y):
+    audio = MP3(y, ID3=ID3)
+    try:
+        audio.add_tags()
+    except error:
+        pass
+    audio.tags.add(APIC(mime='image/jpeg',type=3,desc=u'Cover',data=open(x,'rb').read()))
+    audio.save()
 
 
 if __name__ == '__main__':
