@@ -25,6 +25,12 @@ def scrap_to_file(soup):
     img_file.close
     return 1
 
+def image():
+    global x
+    x = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = [("jpeg files","*.jpg")])
+    return x
+
+
 
 if __name__ == '__main__':
     url = input("input url ==>  ")
